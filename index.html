@@ -202,6 +202,81 @@
     background: radial-gradient(ellipse at 50% 100%, rgba(255,220,150,0.35), transparent 70%);
   }
 
+  /* ---------- BAND (MEET THE BAND) ---------- */
+  .band-header{
+    text-align:center;
+    max-width: 640px;
+    margin: 0 auto 70px auto;
+  }
+  .band-header h2{
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 300;
+    color: var(--gold-bright);
+    margin: 0 0 16px 0;
+  }
+  .band-header p{
+    color: var(--ivory);
+    opacity: 0.65;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .band-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  @media (max-width: 900px){ .band-grid{ grid-template-columns: 1fr; gap: 50px; max-width: 380px; margin: 0 auto; } }
+
+  .band-card{
+    text-align:center;
+    padding: 0 10px;
+  }
+  .band-avatar{
+    width: 140px; height: 140px;
+    margin: 0 auto 26px auto;
+    border-radius: 50%;
+    position: relative;
+    display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(circle at 50% 40%, rgba(232,201,155,0.12), transparent 70%), #0f0d0a;
+    border: 1px solid var(--line);
+  }
+  .band-avatar::before{
+    content:"";
+    position:absolute; inset:-8px;
+    border-radius:50%;
+    border: 1px solid rgba(232,201,155,0.12);
+  }
+  .band-avatar .initial{
+    font-size: 42px;
+    font-weight: 200;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+  }
+  .band-name{
+    font-size: 18px;
+    color: var(--gold-bright);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .band-role{
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+  }
+  .band-bio{
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ivory);
+    opacity: 0.65;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
   /* ---------- RELEASE ---------- */
   .release-card{
     border: 1px solid var(--line);
@@ -312,6 +387,7 @@
   <div class="brand"><span class="dot"></span>ECLIPSE</div>
   <div class="navlinks">
     <a href="#about">About</a>
+    <a href="#band">Band</a>
     <a href="#release">Music</a>
     <a href="#contact">Contact</a>
   </div>
@@ -369,13 +445,39 @@
   </div>
 </section>
 
+<!-- MEET THE BAND -->
+<section id="band">
+  <div class="section-inner">
+    <div class="band-header">
+      <div class="eyebrow" style="text-align:center;">Meet the Band</div>
+      <h2>The people behind the sound.</h2>
+      <p>Three friends, one mission — using what we've got to point people toward Jesus.</p>
+    </div>
+
+    <div class="band-grid">
+      <div class="band-card">
+        <div class="band-avatar"><span class="initial">J</span></div>
+        <div class="band-name">Hunter</div>
+        <div class="band-role">Vocals, piano, and bass</div>
+        <div class="band-bio">Been playing music as long as he can remember. Writes most of our original lyrics.</div>
+      </div>
+      <div class="band-card">
+        <div class="band-avatar"><span class="initial">A</span></div>
+        <div class="band-name">John</div>
+        <div class="band-role">Drums and electric guitar</div>
+        <div class="band-bio">A beginner at both, but he's improving. Hopefully.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- RELEASE -->
 <section id="release">
   <div class="section-inner">
     <div class="release-card">
       <div class="glow-dot"></div>
       <div class="eyebrow" style="margin-left:24px;">Upcoming Release</div>
-      <div class="release-title" style="margin-left:24px;">Love Will Find You</div>
+      <div class="release-title" style="margin-left:24px;">Love Will Guide You</div>
       <div class="release-tag" style="margin-left:24px;">Original</div>
     </div>
   </div>
@@ -393,8 +495,8 @@
     </div>
 
     <form id="freqForm">
-  <input type="hidden" name="access_key" value="87fa3684-7b80-4cf5-b531-dcd7094f62be">
-  <input type="hidden" name="subject" value="New message from eclipse-band.com">
+      <input type="hidden" name="access_key" value="87fa3684-7b80-4cf5-b531-dcd7094f62be">
+      <input type="hidden" name="subject" value="New message from eclipse-band.com">
       <div class="field">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" placeholder="Your name" required>
@@ -431,8 +533,8 @@
     });
   });
 
-  // form submit — placeholder handler (see setup notes for wiring to a real backend)
- document.getElementById('freqForm').addEventListener('submit', async function(e){
+  // form submit
+  document.getElementById('freqForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const form = this;
     const note = document.getElementById('formNote');
