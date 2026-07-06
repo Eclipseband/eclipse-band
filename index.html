@@ -304,7 +304,40 @@
     margin: 14px 0 8px 0;
   }
   .release-tag{ font-size: 11px; letter-spacing: 0.3em; color: var(--muted); }
-
+.notify-row{
+    margin: 34px 24px 8px 24px;
+    display:flex; gap: 14px; flex-wrap: wrap;
+    max-width: 520px;
+  }
+  .notify-row input[type="email"]{
+    flex: 1 1 240px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    color: var(--ivory);
+    font-size: 15px;
+    font-family: inherit;
+    padding: 10px 4px;
+    outline: none;
+    transition: border-color .25s;
+  }
+  .notify-row input[type="email"]::placeholder{ color: var(--muted); opacity: 0.6; }
+  .notify-row input[type="email"]:focus{ border-color: var(--gold); }
+  .notify-btn{
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold-bright);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all .25s ease;
+    white-space: nowrap;
+  }
+  .notify-btn:hover{ border-color: var(--gold); background: rgba(232,201,155,0.06); }
+  .notify-note{ font-size: 12px; color: var(--muted); margin: 14px 24px 0 24px; display:none; }
+  .notify-note.show{ display:block; }
   /* ---------- CONTACT ---------- */
   .contact h2{
     font-size: clamp(36px, 5vw, 56px);
@@ -479,6 +512,15 @@
       <div class="eyebrow" style="margin-left:24px;">Upcoming Release</div>
       <div class="release-title" style="margin-left:24px;">Love Will Guide You</div>
       <div class="release-tag" style="margin-left:24px;">Original</div>
+      <form id="notifyForm">
+        <input type="hidden" name="access_key" value="87fa3684-7b80-4cf5-b531-dcd7094f62be">
+        <input type="hidden" name="subject" value="New release signup — Love Will Find You">
+        <div class="notify-row">
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit" class="notify-btn">Notify Me</button>
+        </div>
+        <div class="notify-note" id="notifyNote">Thanks — we'll let you know the moment it's out.</div>
+      </form>
     </div>
   </div>
 </section>
@@ -549,6 +591,32 @@
       const result = await response.json();
       if (result.success) {
         note.textContent = "Thanks — your message has been sent. We'll get back to you soon.";
+        form.reset();
+      } else {
+        note.textContent = "Something went wrong — please try again.";
+      }
+    } catch (err) {
+      note.textContent = "Something went wrong — please try again.";
+    }
+    note.classList.add('show');
+    setTimeout(()=> note.classList.remove('show'), 6000);
+  });
+  // release notify form submit
+  document.getElementById('notifyForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const form = this;
+    const note = document.getElementById('notifyNote');
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      });
+      const result = await response.json();
+      if (result.success) {
+        note.textContent = "Thanks — we'll let you know the moment it's out.";
         form.reset();
       } else {
         note.textContent = "Something went wrong — please try again.";
